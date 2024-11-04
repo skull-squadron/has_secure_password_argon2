@@ -18,14 +18,8 @@ module HasSecurePasswordArgon2
   self.memory_cost = 16 # 1..31
 
   module ClassMethods
-    def has_secure_password(attribute = :password, validations: true)
-      args = if ActiveRecord::VERSION::MAJOR >= 6
-               [attribute, validations: validations]
-             else
-               [validations: validations]
-             end
-
-      super(*args) if supports_bcrypt_has_secure_password?
+    def has_secure_password(*, **)
+      super if supports_bcrypt_has_secure_password?
 
       include InstanceMethodsOnActivation.new(attribute)
 
